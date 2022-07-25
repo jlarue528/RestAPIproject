@@ -4,6 +4,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const Sequelize = require('sequelize');
+const routes = require('./routes');
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
@@ -19,11 +20,16 @@ const app = express();
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
+app.use(express.json());
+app.use('/api', routes)
+
 //test connection to database
-( async () => {
+;(async () =>  {
   try {
     await sequelize.authenticate();
     console.log('Database Connection Successful!')
+
+    await sequelize.sync({ force: true });
   } catch (err) {
     console.error('Unable to connect to database.', error);
   }
