@@ -4,9 +4,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const { restart } = require('nodemon');
 const router = express.Router();
-const Users = require('./models/Users');
-const Courses = require('./models/Courses');
 const { authenticateUser } = require('./auth-user');
+const { Courses, Users } = require('./models');
 
 // Get Users
 router.get('/users', authenticateUser, async (req, res) => {

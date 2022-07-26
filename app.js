@@ -3,13 +3,9 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
-const Sequelize = require('sequelize');
 const routes = require('./routes');
 
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "fsjstd-restapi.db"
-});
+const { sequelize } = require('./models');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -36,9 +32,9 @@ app.get('/', async (req, res) => {
     await sequelize.authenticate();
     console.log('Database Connection Successful!')
 
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
   } catch (err) {
-    console.error('Unable to connect to database.', error);
+    console.error('Unable to connect to database.', err);
   }
 })();
 

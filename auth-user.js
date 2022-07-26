@@ -2,8 +2,7 @@
 
 const auth = require('basic-auth');
 const { restart } = require('nodemon');
-const Users = require('./models/Users');
-//const User = require('./models/Users')
+const { Users } = require('./models')
 
 exports.authenticateUser = async (req, res, next) => {
     let message;

@@ -23,14 +23,14 @@ module.exports = (sequelize) => {
     },
     { sequelize });
 
-    Users.associate((models) => {
+    Users.associate = (models) => {
         Users.hasMany(models.Courses, 
             {
                 foreignKey: 'userId',
                 allowNull: false
             }
         );
-    });
+    };
 
     return Users;
 }

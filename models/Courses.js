@@ -18,14 +18,14 @@ module.exports = (sequelize) => {
     },
     { sequelize });
 
-    Courses.associate((models) => {
+    Courses.associate = (models) => {
         Courses.belongsTo(models.Users,
             {
                 foreignKey: 'userId',
                 allowNull: false
             }
         )
-    });
+    };
 
     return Courses;
 }
