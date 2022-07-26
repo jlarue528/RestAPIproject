@@ -23,6 +23,13 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use('/api', routes)
 
+// setup a friendly greeting for the root route
+app.get('/', async (req, res) => {
+  res.json({
+    message: 'Welcome to the REST API project!',
+  });
+});
+
 //test connection to database
 ;(async () =>  {
   try {
@@ -37,6 +44,7 @@ app.use('/api', routes)
 
 // setup a friendly greeting for the root route
 app.get('/', async (req, res) => {
+  console.log(res);
   res.json({
     message: 'Welcome to the REST API project!',
   });

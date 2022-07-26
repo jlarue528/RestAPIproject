@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    class User extends Sequelize.Model {}
-    User.init({
+    class Users extends Sequelize.Model {}
+    Users.init({
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -23,14 +23,14 @@ module.exports = (sequelize) => {
     },
     { sequelize });
 
-    User.associate((models) => {
-        User.hasMany(models.Courses, 
+    Users.associate((models) => {
+        Users.hasMany(models.Courses, 
             {
-                foreignKey: 'id',
+                foreignKey: 'userId',
                 allowNull: false
             }
         );
     });
 
-    return User;
+    return Users;
 }

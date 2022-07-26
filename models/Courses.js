@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-    class Course extends Sequelize.Model {}
-    Course.init({
+    class Courses extends Sequelize.Model {}
+    Courses.init({
         title: {
             type: DataTypes.STRING
         },
@@ -18,14 +18,14 @@ module.exports = (sequelize) => {
     },
     { sequelize });
 
-    Course.associate((models) => {
-        Course.belongsTo(models.Users,
+    Courses.associate((models) => {
+        Courses.belongsTo(models.Users,
             {
-                foreignKey: 'id',
+                foreignKey: 'userId',
                 allowNull: false
             }
         )
     });
 
-    return Course;
+    return Courses;
 }
