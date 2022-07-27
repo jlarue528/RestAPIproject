@@ -75,7 +75,13 @@ router.post('/users', asyncHandler(async (req, res) => {
 
 // Get All Courses
 router.get('/courses', asyncHandler( async (req, res) => {
-        const allCourses = await Courses.findAll();
+        const allCourses = await Courses.findAll({
+            include: [
+                {
+                    Model: Users
+                }
+            ],
+        });
         res.json(allCourses);
         res.status(200).end();
 }));
@@ -128,7 +134,15 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
 // Update A Course
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
         const user = req.currentUser;
-        const courseToEdit = await Courses.findByPk(req.params.id);
+        const courseToEdit = await Courses.findByPk(req.params.id,
+            {
+                include: [
+                    {
+                        Model: Users
+                    }
+                ],
+            }
+        );
         if(courseToEdit) {
             let errors = [];
 
