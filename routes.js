@@ -6,7 +6,6 @@ const { restart } = require('nodemon');
 const router = express.Router();
 const { authenticateUser } = require('./auth-user');
 const { Courses, Users } = require('./models');
-const { useInRouterContext } = require('react-router-dom');
 
 const middleware = express();
 middleware.use(express.json());
@@ -101,6 +100,7 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
         let description = req.body.description;
         let estimatedTime = req.body.estimatedTime;
         let materialsNeeded = req.body.materialsNeeded;
+        let userId = req.body.userId;
     
         let errors = [];
         
@@ -121,10 +121,11 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
                 title: title,
                 description: description,
                 estimatedTime: estimatedTime,
-                materialsNeeded: materialsNeeded
+                materialsNeeded: materialsNeeded,
+                userId: userId
             });
             res.status(201);
-            res.redirect(`/courses/${newCourse.id}`);
+            res.redirect(`/api/courses/${newCourse.id}`);
         } 
 }));
 
@@ -139,6 +140,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
             courseToEdit.description = req.body.description;
             courseToEdit.estimatedTime = req.body.estimatedTime;
             courseToEdit.materialsNeeded = req.body.materialsNeeded;
+            courseToEdit.userId = req.body.userId;
     
             // Validate course has required field 'title' populated
             if(!courseToEdit.title) {
@@ -158,7 +160,8 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
                 title: courseToEdit.title,
                 description: courseToEdit.description,
                 estimatedTime: courseToEdit.estimatedTime,
-                materialsNeeded: courseToEdit.materialsNeeded
+                materialsNeeded: courseToEdit.materialsNeeded,
+                userId: courseToEdit.userId
             });
             courseToEdit.save();
             res.status(204).end();
