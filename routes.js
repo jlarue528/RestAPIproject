@@ -6,6 +6,7 @@ const { restart } = require('nodemon');
 const router = express.Router();
 const { authenticateUser } = require('./auth-user');
 const { Courses, Users } = require('./models');
+const { useInRouterContext } = require('react-router-dom');
 
 const middleware = express();
 middleware.use(express.json());
@@ -23,8 +24,10 @@ function asyncHandler(cb){
 // Get Users
 router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
         const user = req.currentUser;
-        const allUsers = await Users.findAll();
-        res.json(allUsers);
+        res.json({
+            name: user.firstName,
+            username: user.emailAddress
+        })
         res.status(200).end();
 }));
 
@@ -75,13 +78,7 @@ router.post('/users', asyncHandler(async (req, res) => {
 
 // Get All Courses
 router.get('/courses', asyncHandler( async (req, res) => {
-        const allCourses = await Courses.findAll({
-            include: [
-                {
-                    Model: Users
-                }
-            ],
-        });
+        const allCourses = await Courses.findAll();
         res.json(allCourses);
         res.status(200).end();
 }));
@@ -134,15 +131,7 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
 // Update A Course
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
         const user = req.currentUser;
-        const courseToEdit = await Courses.findByPk(req.params.id,
-            {
-                include: [
-                    {
-                        Model: Users
-                    }
-                ],
-            }
-        );
+        const courseToEdit = await Courses.findByPk(req.params.id);
         if(courseToEdit) {
             let errors = [];
 
