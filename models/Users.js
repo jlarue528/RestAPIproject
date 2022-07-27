@@ -54,7 +54,7 @@ module.exports = (sequelize) => {
             },
             validate: {
                 notNull: {
-                    msg: 'Both passwords must match'
+                    msg: 'Please enter password'
                 },
                 notEmpty: {
                     msg: 'Please provide a password'
