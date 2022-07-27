@@ -48,7 +48,6 @@ router.post('/users', asyncHandler(async (req, res) => {
             res.status(201);
             res.setHeader('location', newUser.id).end();
         } catch (error) {
-            console.log('JENN LOOK HERE:', error);
             if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
                 const errors = error.errors.map(err => err.message);
                 res.status(400).json({ errors });
@@ -127,14 +126,14 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
             
                 try {
                      //update course
-                    courseToEdit.update({
+                    await courseToEdit.update({
                         title: courseToEdit.title,
                         description: courseToEdit.description,
                         estimatedTime: courseToEdit.estimatedTime,
                         materialsNeeded: courseToEdit.materialsNeeded,
                         userId: courseToEdit.userId
                     });
-                    courseToEdit.save();
+                    await courseToEdit.save();
                     res.status(204).end();
                 } catch (error) {
                     if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
