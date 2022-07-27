@@ -7,10 +7,12 @@ const bcrypt = require('bcrypt');
 
 exports.authenticateUser = async (req, res, next) => {
     let message;
-    const credentials = auth(req);
+    try{
+        const credentials = auth(req);
+        // console.log(credentials);
 
-    if(credentials) {
-        const user = await Users.findOne({ where: {name: credentials.name} })
+        if(credentials) {
+            const user = await Users.findOne({ where: {emailAddress: credentials.name} })
         if(user) {
             const authenticated = bcrypt
                 .compareSync(credentials.pass, user.confirmedPassword);
@@ -34,4 +36,7 @@ exports.authenticateUser = async (req, res, next) => {
     } else {
         next();
     }
+} catch (err) {
+    res.json({error: err.message})
+}
 }
