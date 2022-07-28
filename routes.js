@@ -33,20 +33,41 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 
 // Add Users
 router.post('/users', asyncHandler(async (req, res) => {
-        let firstName = req.body.firstName;
-        let lastName = req.body.lastName;
-        let emailAddress = req.body.emailAddress;
-        let password = req.body.password;
-
+        let errors = [];
+        let user = req.body;
         try {
-            const newUser = await Users.create({
-                firstName: firstName,
-                lastName: lastName,
-                emailAddress: emailAddress,
-                password: password
-            });
-            res.status(201);
-            res.setHeader('location', newUser.id).end();
+            if(!user.firstName) {
+                errors.push('Please provide first name')
+            }
+    
+            if(!user.lastName) {
+                errors.push('Please provide last name')
+            }
+    
+            if(!user.emailAddress) {
+                errors.push('Please provide email address');
+            }
+    
+            if(!user.password) {
+                errors.push('Please provide password')
+            }
+
+            if (errors.length > 0) {
+                res.status(400).json({ errors });
+            } else {
+                let firstName = req.body.firstName;
+                let lastName = req.body.lastName;
+                let emailAddress = req.body.emailAddress;
+                let password = req.body.password;
+                const newUser = await Users.create({
+                    firstName: firstName,
+                    lastName: lastName,
+                    emailAddress: emailAddress,
+                    password: password
+                });
+                res.status(201);
+                res.setHeader('location', newUser.id).end();
+            } 
         } catch (error) {
             if(error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
                 const errors = error.errors.map(err => err.message);
@@ -54,7 +75,7 @@ router.post('/users', asyncHandler(async (req, res) => {
             } else {
                 throw error;
             }
-        } 
+        }
 }));
 
 // Get All Courses

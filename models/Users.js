@@ -14,10 +14,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: 'Please enter first name'
-                },
+                    msg: 'Please enter title'
+                }, 
                 notEmpty: {
-                    msg: 'Please provide a first name'
+                    msg: 'Please provide a title'
                 },
             },
         },
@@ -26,10 +26,10 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: 'Please enter last name'
-                },
+                    msg: 'Please enter title'
+                }, 
                 notEmpty: {
-                    msg: 'Please provide a last name'
+                    msg: 'Please provide a title'
                 },
             },
         },
@@ -38,26 +38,26 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                    msg: 'Please enter email address'
-                },
+                    msg: 'Please enter title'
+                }, 
                 notEmpty: {
-                    msg: 'Please provide a first name'
+                    msg: 'Please provide a title'
                 },
-            }
+            },
         },
         password:  {
             type: DataTypes.STRING,
             allowNull: false,
             set(val) {
-                const hashedPassword = bcrypt.hashSync(val, 10);
-                this.setDataValue('password', hashedPassword);
+                    const hashedPassword = bcrypt.hashSync(val, 10);
+                    this.setDataValue('password', hashedPassword);
             },
             validate: {
                 notNull: {
-                    msg: 'Please enter password'
-                },
+                    msg: 'Please enter title'
+                }, 
                 notEmpty: {
-                    msg: 'Please provide a password'
+                    msg: 'Please provide a title'
                 },
             },
         },
